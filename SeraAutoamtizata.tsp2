@@ -52,7 +52,7 @@
                   <curve tagname="Umiditate" curvename="Umiditate" linewidth="1" color="0x6680e6ff" type="1"/>
                </curves>
             </objectView>
-            <objectView class="tesla.scada2.model.objects.AnalogClockView" name="AC" posx="260.0" posy="10.0" width="100.0" height="100.0" angle="0" lock="false" text="Label">
+            <objectView class="tesla.scada2.model.objects.AnalogClockView" name="AC" posx="240.0" posy="10.0" width="140.0" height="140.0" angle="0" lock="false" text="Label">
                <scripts/>
             </objectView>
             <objectView class="tesla.scada2.model.objects.DigitalMeterHistoryAndEvent" name="Meter with history and event" posx="60.0" posy="180.0" width="200.0" height="73.0" angle="0" lock="false" text="Temperatura" textcolor="0x90ee90ff" bordercolor="0xa9a9a9ff" fillcolor="0x000000ff" type3d="0" side="0">
@@ -61,7 +61,7 @@
                </property>
                <scripts/>
             </objectView>
-            <objectView class="tesla.scada2.model.objects.DigitalMeterHistoryAndEvent" name="Meter with history and event" posx="370.0" posy="180.0" width="200.0" height="70.0" angle="0" lock="false" text="Umiditate" textcolor="0x90ee90ff" bordercolor="0xa9a9a9ff" fillcolor="0x000000ff" type3d="0" side="0">
+            <objectView class="tesla.scada2.model.objects.DigitalMeterHistoryAndEvent" name="Meter with history and event" posx="370.0" posy="180.0" width="200.0" height="70.0" angle="0" lock="false" text="Umiditate" textcolor="0x90ee90ff" bordercolor="0xa9a9a9ff" fillcolor="0x000000ff" type3d="0" side="1">
                <property key="value">
                   <property class="tesla.scada2.model.properties.ValueProperty" tagname="Umiditate" minimumvalue="0.0" maximumvalue="100.0" decimalpos="0"/>
                </property>
