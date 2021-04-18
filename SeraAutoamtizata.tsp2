@@ -69,7 +69,7 @@
             </objectView>
             <objectView class="tesla.scada2.model.objects.SliderView" name="SL" posx="270.0" posy="190.0" width="50.0" height="60.0" angle="0" lock="false" color="0x808080ff" fillcolor="0x0000ffff" type3d="0">
                <property key="slidercontrol">
-                  <property class="tesla.scada2.model.properties.SliderControlProperty" tagname="Temperatura" minimumvalue="0.0" maximumvalue="100.0" snaptotick="false" decimalpos="0"/>
+                  <property class="tesla.scada2.model.properties.SliderControlProperty" tagname="Temperatura" minimumvalue="0.0" maximumvalue="50.0" snaptotick="false" decimalpos="0"/>
                </property>
                <scripts>
                   <string>Script0</string>
@@ -84,6 +84,12 @@
             <objectView class="tesla.scada2.model.objects.ButtonView" name="Button" posx="410.0" posy="60.0" width="140.0" height="40.0" angle="0" lock="false" text="Water Control" textcolor="0xffffffff" fillcolor="0x008000ff" type3d="0" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false">
                <property key="buttoncontrol">
                   <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="startWatering" functiontype="7" value="0" title="Enter value" screenname="Control" command=""/>
+               </property>
+               <scripts/>
+            </objectView>
+            <objectView class="tesla.scada2.model.objects.FanView" name="Fan" posx="880.0" posy="160.0" width="120.0" height="120.0" angle="0" lock="false" fillcolor="0x808080ff" type3d="0" rotation="0">
+               <property key="rotationindicator">
+                  <property class="tesla.scada2.model.properties.RotateIndicatorProperty" tagname="tempAdjust" value="true" type="0" speed="500"/>
                </property>
                <scripts/>
             </objectView>
@@ -113,19 +119,19 @@
             </objectView>
             <objectView class="tesla.scada2.model.objects.ButtonView" name="cancel" posx="390.0" posy="250.0" width="100.0" height="40.0" angle="0" lock="false" text="Cancel" textcolor="0xffffffff" fillcolor="0x808080ff" type3d="0" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false">
                <property key="buttoncontrol">
-                  <property class="tesla.scada2.model.properties.ButtonControlProperty" functiontype="8" value="0" title="Enter value" command=""/>
+                  <property class="tesla.scada2.model.properties.ButtonControlProperty" functiontype="8" value="0" title="Enter value" screenname="" command=""/>
                </property>
                <scripts/>
             </objectView>
             <objectView class="tesla.scada2.model.objects.ButtonView" name="editSatart" posx="350.0" posy="80.0" width="110.0" height="40.0" angle="0" lock="false" text="Edit" textcolor="0xffffffff" fillcolor="0x008000ff" type3d="0" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false">
                <property key="buttoncontrol">
-                  <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="startWatering" functiontype="5" value="0" title="HHmmSS" command=""/>
+                  <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="startWatering" functiontype="5" value="0" title="HHmmSS" screenname="" command=""/>
                </property>
                <scripts/>
             </objectView>
             <objectView class="tesla.scada2.model.objects.ButtonView" name="stopWatering" posx="350.0" posy="160.0" width="110.0" height="40.0" angle="0" lock="false" text="Edit" textcolor="0xffffffff" fillcolor="0x008000ff" type3d="0" fonttype="0" fontsize="0" textplacement="1" animation="true" underline="false">
                <property key="buttoncontrol">
-                  <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="stopWatering" functiontype="5" value="0" title="HHmmSS" command=""/>
+                  <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="stopWatering" functiontype="5" value="0" title="HHmmSS" screenname="" command=""/>
                </property>
                <scripts/>
             </objectView>
@@ -134,7 +140,7 @@
                   <property class="tesla.scada2.model.properties.IndicatorProperty" tagname="WaterControl" value="true" type="0"/>
                </property>
                <property key="buttoncontrol">
-                  <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="wateringTogle" functiontype="2" value="0" title="Enter value" command=""/>
+                  <property class="tesla.scada2.model.properties.ButtonControlProperty" tagname="wateringTogle" functiontype="2" value="0" title="Enter value" screenname="" command=""/>
                </property>
                <scripts/>
             </objectView>
@@ -199,9 +205,7 @@ Tags.Hour = date;</sttext>
             <opcode type="CALL" datatype="-1">
                <value>1</value>
             </opcode>
-            <opcode type="BINARY_LTE" datatype="-1">
-               <value></value>
-            </opcode>
+            <opcode type="BINARY_LTE" datatype="-1"/>
             <opcode type="LOAD_TAG" datatype="-1">
                <value>startWatering</value>
             </opcode>
@@ -220,15 +224,9 @@ Tags.Hour = date;</sttext>
             <opcode type="CALL" datatype="-1">
                <value>1</value>
             </opcode>
-            <opcode type="BINARY_GTE" datatype="-1">
-               <value></value>
-            </opcode>
-            <opcode type="BOOLEAN_AND" datatype="-1">
-               <value></value>
-            </opcode>
-            <opcode type="BOOLEAN_OR" datatype="-1">
-               <value></value>
-            </opcode>
+            <opcode type="BINARY_GTE" datatype="-1"/>
+            <opcode type="BOOLEAN_AND" datatype="-1"/>
+            <opcode type="BOOLEAN_OR" datatype="-1"/>
             <opcode type="JUMP_IF_FALSE" datatype="-1">
                <value>4</value>
             </opcode>
@@ -252,7 +250,129 @@ Tags.Hour = date;</sttext>
       <script name="tempAdjust" color="0xd3d3d3ff" type="0" windowheight="600" windowwidth="800" groupname="" subgroupname="" language="1" everycycle="true" extype="0">
          <objects/>
          <links/>
-         <opcodes/>
+         <sttext>if (Tags.Temperatura &gt; 25){
+	Tags.tempAdjust = true;
+	Tags.Temperatura = Tags.Temperatura--;
+
+	if (Tags.Temperatura &gt;= 30){
+		Objects.Fan.rotation = 5000;
+	}else{
+		Objects.Fan.rotation = 10000;
+	}
+}else{
+	Tags.tempAdjust = false;
+}
+
+
+// need to add GUI elements for heating
+
+if(Tags.Temperatura &lt;= 20){
+	Tags.Temperatura = Tags.Temperatura++;
+}</sttext>
+         <opcodes>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>25</value>
+            </opcode>
+            <opcode type="LOAD_TAG" datatype="-1">
+               <value>Temperatura</value>
+            </opcode>
+            <opcode type="BINARY_GT" datatype="-1">
+               <value></value>
+            </opcode>
+            <opcode type="JUMP_IF_FALSE" datatype="-1">
+               <value>20</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="0">
+               <value>true</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>tempAdjust</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="3">
+               <value>1</value>
+            </opcode>
+            <opcode type="LOAD_TAG" datatype="-1">
+               <value>Temperatura</value>
+            </opcode>
+            <opcode type="BINARY_REM" datatype="-1">
+               <value></value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>Temperatura</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>Temperatura</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>30</value>
+            </opcode>
+            <opcode type="LOAD_TAG" datatype="-1">
+               <value>Temperatura</value>
+            </opcode>
+            <opcode type="BINARY_GTE" datatype="-1">
+               <value></value>
+            </opcode>
+            <opcode type="JUMP_IF_FALSE" datatype="-1">
+               <value>5</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>5000</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>rotation</value>
+            </opcode>
+            <opcode type="STORE_OBJECT" datatype="-1">
+               <value>Fan</value>
+            </opcode>
+            <opcode type="JUMP" datatype="-1">
+               <value>4</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>10000</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="7">
+               <value>rotation</value>
+            </opcode>
+            <opcode type="STORE_OBJECT" datatype="-1">
+               <value>Fan</value>
+            </opcode>
+            <opcode type="JUMP" datatype="-1">
+               <value>3</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="0">
+               <value>false</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>tempAdjust</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="4">
+               <value>20</value>
+            </opcode>
+            <opcode type="LOAD_TAG" datatype="-1">
+               <value>Temperatura</value>
+            </opcode>
+            <opcode type="BINARY_LTE" datatype="-1">
+               <value></value>
+            </opcode>
+            <opcode type="JUMP_IF_FALSE" datatype="-1">
+               <value>6</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="3">
+               <value>1</value>
+            </opcode>
+            <opcode type="LOAD_TAG" datatype="-1">
+               <value>Temperatura</value>
+            </opcode>
+            <opcode type="BINARY_ADD" datatype="-1">
+               <value></value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>Temperatura</value>
+            </opcode>
+            <opcode type="STORE_TAG" datatype="-1">
+               <value>Temperatura</value>
+            </opcode>
+         </opcodes>
       </script>
    </scripts>
    <servers/>
@@ -263,6 +383,7 @@ Tags.Hour = date;</sttext>
       <tag name="WaterControl" datatype="0" accessmode="1" initialpv="" numberofelements="10" elementtype="-1" pvinputserver="Local" pvinputsource="" outputdiffers="false" pvoutputserver="Local" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="" subgroupname="" description="" usehistorydeadband="false" historydeadband="0.0"/>
       <tag name="startWatering" datatype="7" accessmode="1" initialpv="133000" numberofelements="10" elementtype="0" pvinputserver="Local" pvinputsource="" outputdiffers="false" pvoutputserver="Local" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="" subgroupname="" description="" usehistorydeadband="false" historydeadband="0.0"/>
       <tag name="stopWatering" datatype="7" accessmode="1" initialpv="133020" numberofelements="10" elementtype="0" pvinputserver="Local" pvinputsource="" outputdiffers="false" pvoutputserver="Local" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="" subgroupname="" description="" usehistorydeadband="false" historydeadband="0.0"/>
+      <tag name="tempAdjust" datatype="0" accessmode="1" initialpv="false" numberofelements="10" elementtype="-1" pvinputserver="Local" pvinputsource="" outputdiffers="false" pvoutputserver="Local" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="" subgroupname="" description="" usehistorydeadband="false" historydeadband="0.0"/>
       <tag name="wateringTogle" datatype="0" accessmode="1" initialpv="false" numberofelements="10" elementtype="-1" pvinputserver="Local" pvinputsource="" outputdiffers="false" pvoutputserver="Local" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="" subgroupname="" description="" usehistorydeadband="false" historydeadband="0.0"/>
    </tags>
    <users/>
