@@ -86,7 +86,7 @@
       </window>
    </windows>
    <scripts>
-      <script name="Script0" color="0xd3d3d3ff" type="3" windowheight="600" windowwidth="800" groupname="" subgroupname="" language="1" everycycle="true" extype="0">
+      <script name="getCurrentTime" color="0xd3d3d3ff" type="3" windowheight="600" windowwidth="800" groupname="" subgroupname="" language="1" everycycle="true" extype="0">
          <objects/>
          <links/>
          <sttext>string date = currentdatetime(&quot;HHmmss&quot;);
@@ -112,17 +112,32 @@ Tags.Hour = date;</sttext>
             </opcode>
          </opcodes>
       </script>
-      <script name="Script1" color="0xd3d3d3ff" type="0" windowheight="600" windowwidth="800" groupname="" subgroupname="" language="1" everycycle="true" extype="0">
+      <script name="WaterControl" color="0xd3d3d3ff" type="0" windowheight="600" windowwidth="800" groupname="" subgroupname="" language="1" everycycle="true" extype="0">
          <objects/>
          <links/>
-         <sttext>if ((stringtodouble(Tags.Hour) &gt;= 211200) &amp;&amp; (stringtodouble(Tags.Hour) &lt;= 211230)){
-	Tags.Hour1 = true;
+         <sttext>double startWatering = 212100; // it means 21h 21m 00s may changed from GUI
+double stopWatering = 212200; // it means 21h 22m 00s  may changed from GUI
+
+if ((stringtodouble(Tags.Hour) &gt;= startWatering) &amp;&amp; (stringtodouble(Tags.Hour) &lt;= stopWatering)){
+	Tags.Hour = true;
 }else{
-	Tags.Hour1 = false;
+	Tags.Hour = false;
 }</sttext>
          <opcodes>
-            <opcode type="LOAD_CONST" datatype="4">
-               <value>211230</value>
+            <opcode type="LOAD_CONST" datatype="6">
+               <value>212100</value>
+            </opcode>
+            <opcode type="STORE" datatype="6">
+               <value>startWatering</value>
+            </opcode>
+            <opcode type="LOAD_CONST" datatype="6">
+               <value>212200</value>
+            </opcode>
+            <opcode type="STORE" datatype="6">
+               <value>stopWatering</value>
+            </opcode>
+            <opcode type="LOAD_FAST" datatype="-1">
+               <value>stopWatering</value>
             </opcode>
             <opcode type="LOAD_TAG" datatype="-1">
                <value>Hour</value>
@@ -136,8 +151,8 @@ Tags.Hour = date;</sttext>
             <opcode type="BINARY_LTE" datatype="-1">
                <value></value>
             </opcode>
-            <opcode type="LOAD_CONST" datatype="4">
-               <value>211200</value>
+            <opcode type="LOAD_FAST" datatype="-1">
+               <value>startWatering</value>
             </opcode>
             <opcode type="LOAD_TAG" datatype="-1">
                <value>Hour</value>
@@ -161,7 +176,7 @@ Tags.Hour = date;</sttext>
                <value>true</value>
             </opcode>
             <opcode type="STORE_TAG" datatype="-1">
-               <value>WaterControl</value>
+               <value>Hour</value>
             </opcode>
             <opcode type="JUMP" datatype="-1">
                <value>3</value>
@@ -170,15 +185,20 @@ Tags.Hour = date;</sttext>
                <value>false</value>
             </opcode>
             <opcode type="STORE_TAG" datatype="-1">
-               <value>WaterControl</value>
+               <value>Hour</value>
             </opcode>
          </opcodes>
+      </script>
+      <script name="tempAdjust" color="0xd3d3d3ff" type="0" windowheight="600" windowwidth="800" groupname="" subgroupname="" language="1" everycycle="true" extype="0">
+         <objects/>
+         <links/>
+         <opcodes/>
       </script>
    </scripts>
    <servers/>
    <tags>
       <tag name="Hour" datatype="7" accessmode="1" initialpv="" numberofelements="10" elementtype="0" pvinputserver="Local" pvinputsource="" outputdiffers="false" pvoutputserver="Local" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="" subgroupname="" description="" usehistorydeadband="false" historydeadband="0.0"/>
-      <tag name="Temperatura" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="Local" pvinputsource="" outputdiffers="false" pvoutputserver="Local" pvoutputsource="" enablescaling="true" rawvaluemax="0.0" rawvaluemin="0.0" euvaluemax="0.0" euvaluemin="50.0" offset="0.0" enablehistorizing="true" storageperiod="100" storeindb="true" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="Script0" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="" subgroupname="" description="" usehistorydeadband="false" historydeadband="0.0"/>
+      <tag name="Temperatura" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="Local" pvinputsource="" outputdiffers="false" pvoutputserver="Local" pvoutputsource="" enablescaling="true" rawvaluemax="0.0" rawvaluemin="0.0" euvaluemax="0.0" euvaluemin="50.0" offset="0.0" enablehistorizing="true" storageperiod="100" storeindb="true" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="getCurrentTime" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="" subgroupname="" description="" usehistorydeadband="false" historydeadband="0.0"/>
       <tag name="Umiditate" datatype="3" accessmode="1" initialpv="0" numberofelements="10" elementtype="-1" pvinputserver="Local" pvinputsource="" outputdiffers="false" pvoutputserver="Local" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="true" storageperiod="100" storeindb="true" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="" subgroupname="" description="" usehistorydeadband="false" historydeadband="0.0"/>
       <tag name="WaterControl" datatype="0" accessmode="1" initialpv="true" numberofelements="10" elementtype="-1" pvinputserver="Local" pvinputsource="" outputdiffers="false" pvoutputserver="Local" pvoutputsource="" enablescaling="false" rawvaluemax="100.0" rawvaluemin="0.0" euvaluemax="100.0" euvaluemin="0.0" offset="0.0" enablehistorizing="false" storageperiod="10000" storeindb="false" enablealarming="false" enablehihi="false" hihilimit="1.0" hihipriority="50" enablehi="false" hilimit="0.0" hipriority="500" enablelo="false" lolimit="0.0" lopriority="500" enablelolo="false" lololimit="0.0" lolopriority="50" enablenormal="false" normalpriority="900" deadband="0.0" opcuaevent="false" enablescript="false" scriptname="" scriptvalue="0.0" scripttype="0" scriptdeadband="0.0" groupname="" subgroupname="" description="" usehistorydeadband="false" historydeadband="0.0"/>
    </tags>
